@@ -1,119 +1,193 @@
-body {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Roboto+Mono&display=swap');
+
+:root {
+  --bg-color: #0a0a0a;
+  --primary-color: #00ff00;
+  --accent-color: #00ffff;
+  --text-color: #e0e0e0;
 }
 
-h1, h2 {
-    color: #333;
+body {
+  font-family: 'Roboto Mono', monospace;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'VT323', monospace;
+  color: var(--primary-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+  background-color: rgba(10, 10, 10, 0.8);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, 
+    rgba(0, 255, 0, 0.1) 0%, 
+    rgba(10, 10, 10, 0) 20%, 
+    rgba(10, 10, 10, 0) 80%, 
+    rgba(0, 255, 0, 0.1) 100%
+  );
+  z-index: -2;
 }
 
 .button {
-    display: inline-block;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-right: 10px;
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--accent-color);
+}
+
+.delete-button {
+  background-color: #ff4136;
+}
+
+.delete-button:hover {
+  background-color: #ff7066;
+}
+
+.bot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.bot-card {
+  background-color: rgba(0, 255, 0, 0.1);
+  border: 1px solid var(--primary-color);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.bot-card:hover {
+  box-shadow: 0 0 15px var(--accent-color);
+  transform: translateY(-5px);
+}
+
+.bot-avatar {
+  width: 100px;
+  height: 100px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--bg-color);
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+  background-color: rgba(0, 255, 0, 0.1);
+  border: 1px solid var(--primary-color);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
 }
 
-label, input, textarea {
-    margin-bottom: 10px;
-}
-
-input[type="submit"], button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.memory-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.memory-actions form {
-    margin: 0;
-}
-
-/* Add these styles to your existing CSS */
-.textarea-wrapper {
-    display: flex;
-    flex-grow: 1;
-}
-
-.line-numbers {
-    padding: 10px 5px;
-    border-right: 1px solid #ddd;
-    background-color: #f7f7f7;
-    text-align: right;
-    color: #999;
-    white-space: pre;
-    line-height: 1.5;
-}
-
-textarea {
-    flex-grow: 1;
-    border: none;
-    outline: none;
-    padding: 10px;
-    line-height: 1.5;
-    resize: vertical;
+input[type="text"], input[type="number"], textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  color: var(--text-color);
 }
 
 .memory-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    overflow: hidden;
+  background-color: rgba(0, 255, 0, 0.05);
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
-.memory-tag {
-    background-color: #f0f0f0;
-    padding: 5px 10px;
-    font-weight: bold;
-    color: #666;
+.memory-wrapper textarea, .memory-wrapper pre {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-#botStatus {
-    margin-top: 10px;
-    font-weight: bold;
+.memory-wrapper textarea {
+  resize: vertical;
 }
 
-#toggleBots {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+form {
+  margin-bottom: 20px;
 }
 
-#toggleBots:hover {
-    background-color: #45a049;
+#personaForm textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+#intervalStatus {
+  margin-left: 10px;
+}
+
+.flashes {
+  list-style-type: none;
+  padding: 0;
+}
+
+.flashes li {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.flashes li.success {
+  background-color: rgba(0, 255, 0, 0.2);
+  border: 1px solid var(--primary-color);
+}
+
+.flashes li.error {
+  background-color: rgba(255, 0, 0, 0.2);
+  border: 1px solid #ff4136;
+}
+
+.bot-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 768px) {
+  .bot-grid {
+    grid-template-columns: 1fr;
+  }
 }

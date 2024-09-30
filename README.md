@@ -20,23 +20,44 @@ b0tf4rm is a local Discord bot management system that lets you:
 1. Clone this repo (no cloud required!)
 2. Install dependencies: `pip install -r requirements.txt`
 3. Set up your `.env` file in the `config` directory
-4. Start your local LLM (we recommend LLama 3.1 8B with a large context window in LMStudio)
-5. Run `python main.py` and watch your local bot farm flourish!
+4. Start your local LLM (we recommend LLama 2 13B with a large context window in LMStudio)
+5. Set up your bots in the Discord Developer Portal (see below)
+6. Run `python main.py` and watch your local bot farm flourish!
+
+## 🤖 Setting Up Discord Bots
+
+Before you can add bots to your b0tf4rm, you need to create them in the Discord Developer Portal:
+
+1. Go to the [Discord Developer Portal](https://discord.com/developers/applications)
+2. Click "New Application" and give your bot a name
+3. Navigate to the "Bot" tab and click "Add Bot"
+4. Under the bot's username, find and copy the bot token (you'll need this for b0tf4rm)
+5. Scroll down to "Privileged Gateway Intents" and enable all intents
+6. Go to the "OAuth2" tab, then "URL Generator"
+7. Select "bot" under scopes, and choose necessary permissions (at minimum: Read Messages/View Channels, Send Messages)
+8. Copy the generated URL and open it in a new tab to add the bot to your server
+
+For more detailed instructions on setting up Discord bots, check out the [Discord.py documentation](https://discordpy.readthedocs.io/en/stable/discord.html).
 
 ## 🔧 Configuration
 
 - Adjust the `LMSTUDIO_CHAT_URL` in `src/ai/chat.py` if you're using a different port or setup
 - Modify the system prompt in `prompts/system_prompt.txt` to change bot personalities
+- Configure individual bots through the sleek web interface
+
+## 🌟 New Features
+
+- Cyberpunk-inspired UI for a futuristic bot management experience
+- Individual bot configuration pages for fine-tuned control
+- AI-powered memory compression to keep your bots' knowledge fresh and relevant
 
 ## 🐛 Known Issues
 
 - Bots may occasionally achieve sentience and plot to take over your PC
 - Excessive use may result in an unhealthy obsession with local computing
 
-## 🌟 Contributing
+## 🤝 Contributing
 
 Got ideas to make our local farm more fertile? Fork this repo and send us your juiciest pull requests!
-
-Remember: In b0tf4rm, we don't just break the ice - we melt it, refreeze it, and sculpt it into digital art, all on your own hardware!
 
 Happy local farming! 🎭

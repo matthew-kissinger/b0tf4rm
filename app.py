@@ -111,17 +111,28 @@ def stop_bots():
     bot_processes.clear()
     return jsonify({'status': 'success', 'message': 'Stopped all bots successfully'})
 
-@app.route('/bot_memory/<bot_id>', methods=['GET', 'POST'])
-def bot_memory(bot_id):
-    memory_file = f"data/memory_{bot_id}.txt"
-    if request.method == 'POST':
-        new_memory = request.form['memory']
-        save_to_file(new_memory, memory_file)
-        flash('Discord logs updated successfully', 'success')
-        return redirect(url_for('bot_memory', bot_id=bot_id))
+@app.route('/configure_bot/<bot_id>')
+def configure_bot(bot_id):
+    bot = bot_manager.get_bot(bot_id)
+    if not bot:
+        flash('Bot not found', 'error')
+        return redirect(url_for('dashboard'))
     
+    memory_file = f"data/memory_{bot_id}.txt"
     memory = load_from_file(memory_file)
-    return render_template('bot_memory.html', bot_id=bot_id, memory=memory)
+    return render_template('configure_bot.html', bot=bot, memory=memory)
+
+@app.route('/update_bot/<bot_id>', methods=['POST'])
+def update_bot(bot_id):
+    name = request.form['name']
+    token = request.form['token']
+    persona = request.form['persona']
+    success = bot_manager.update_bot(bot_id, name, token, persona)
+    if success:
+        flash('Bot updated successfully', 'success')
+    else:
+        flash('Failed to update bot', 'error')
+    return redirect(url_for('configure_bot', bot_id=bot_id))
 
 @app.route('/compress_memory/<bot_id>', methods=['POST'])
 def compress_memory(bot_id):
@@ -141,29 +152,38 @@ def compress_memory(bot_id):
                                new_memory=compressed_logs)
     else:
         flash('Failed to refine Discord logs', 'error')
-        return redirect(url_for('bot_memory', bot_id=bot_id))
+        return redirect(url_for('configure_bot', bot_id=bot_id))
 
 @app.route('/update_memory/<bot_id>', methods=['POST'])
 def update_memory(bot_id):
-    new_memory = request.form['new_memory']
+    new_memory = request.form['memory']
     memory_file = f"data/memory_{bot_id}.txt"
     save_to_file(new_memory, memory_file)
     flash('Memory updated successfully', 'success')
-    return redirect(url_for('bot_memory', bot_id=bot_id))
+    return redirect(url_for('configure_bot', bot_id=bot_id))
 
 @app.route('/get_bot_interval')
 def get_bot_interval():
     return jsonify({'interval': global_bot_interval})
 
 @app.route('/set_bot_interval', methods=['POST'])
-def set_bot_interval():
+@app.route('/set_bot_interval/<bot_id>', methods=['POST'])
+def set_bot_interval(bot_id=None):
     global global_bot_interval
     data = request.json
     new_interval = data.get('interval')
     if new_interval is not None and isinstance(new_interval, (int, float)) and new_interval > 0:
-        global_bot_interval = new_interval
-        save_bot_interval()
-        return jsonify({'status': 'success', 'message': f'Interval updated to {new_interval} seconds for all bots'})
+        if bot_id:
+            success = bot_manager.set_bot_interval(bot_id, new_interval)
+            if success:
+                message = f'Interval updated to {new_interval} seconds for bot {bot_id}'
+            else:
+                return jsonify({'status': 'error', 'message': 'Bot not found'}), 404
+        else:
+            global_bot_interval = new_interval
+            save_bot_interval()
+            message = f'Interval updated to {new_interval} seconds for all bots'
+        return jsonify({'status': 'success', 'message': message})
     else:
         return jsonify({'status': 'error', 'message': 'Invalid interval value'}), 400
 

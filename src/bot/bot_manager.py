@@ -90,3 +90,35 @@ class BotManager:
             with open(filename, 'r') as f:
                 return json.load(f)
         return []
+
+    def update_bot_persona(self, bot_id, new_persona):
+        for bot in self.bots:
+            if bot['id'] == bot_id:
+                bot['persona'] = new_persona
+                self.save_bots()
+                return True
+        return False
+
+    def get_bot(self, bot_id):
+        for bot in self.bots:
+            if bot['id'] == bot_id:
+                return bot
+        return None
+
+    def set_bot_interval(self, bot_id, interval):
+        for bot in self.bots:
+            if bot['id'] == bot_id:
+                bot['interval'] = interval
+                self.save_bots()
+                return True
+        return False
+
+    def update_bot(self, bot_id, name, token, persona):
+        for bot in self.bots:
+            if bot['id'] == bot_id:
+                bot['name'] = name
+                bot['token'] = token
+                bot['persona'] = persona
+                self.save_bots()
+                return True
+        return False

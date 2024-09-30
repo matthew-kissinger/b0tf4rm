@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configure Bot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Configure Bot (ID: {{ bot.id }})</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <form action="{{ url_for('update_bot', bot_id=bot.id) }}" method="post">
+            <h2>Bot Details</h2>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ bot.name }}" required>
+            
+            <label for="token">Token:</label>
+            <input type="text" id="token" name="token" value="{{ bot.token }}" required>
+            
+            <label for="persona">Persona:</label>
+            <textarea id="persona" name="persona" rows="5" required>{{ bot.persona }}</textarea>
+            
+            <input type="submit" value="Update Bot" class="button">
+        </form>
+        
+        <h2>Discord Logs</h2>
+        <form action="{{ url_for('update_memory', bot_id=bot.id) }}" method="post">
+            <div class="memory-wrapper">
+                <textarea name="memory" rows="20" cols="80">{{ memory }}</textarea>
+            </div>
+            <input type="submit" value="Update Discord Logs" class="button">
+        </form>
+        <form action="{{ url_for('compress_memory', bot_id=bot.id) }}" method="post">
+            <input type="submit" value="AI Compress Discord Logs" class="button">
+        </form>
+        
+        <div>
+            <h3>Update Bot Interval</h3>
+            <input type="number" id="botInterval" min="1" step="1" value="{{ bot.interval }}">
+            <button id="updateInterval" class="button">Update Interval</button>
+            <span id="intervalStatus"></span>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="button">Back to Dashboard</a>
+    </div>
+    <script src="{{ url_for('static', filename='matrix.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#updateInterval').click(function() {
+                var newInterval = $('#botInterval').val();
+                $.ajax({
+                    url: '{{ url_for("set_bot_interval", bot_id=bot.id) }}',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({interval: parseFloat(newInterval)}),
+                    success: function(response) {
+                        $('#intervalStatus').text(response.message).css('color', 'var(--primary-color)');
+                    },
+                    error: function(xhr) {
+                        $('#intervalStatus').text(xhr.responseJSON.message).css('color', '#ff4136');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
