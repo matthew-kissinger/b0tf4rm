@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Bot Dashboard</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <a href="{{ url_for('add_bot') }}" class="button">Add New Bot</a>
+    <button id="toggleBots" class="button">Start Bots</button>
+    <div id="botStatus">Bots are stopped</div>
+    
+    <div>
+        <h3>Update Bot Interval (for all bots)</h3>
+        <input type="number" id="botInterval" min="1" step="1" value="{{ global_interval }}">
+        <button id="updateInterval">Update Interval</button>
+        <span id="intervalStatus"></span>
+    </div>
+    
+    <h2>Current Bots</h2>
+    <ul>
+        {% for bot in bots %}
+        <li>
+            {{ bot.name }} (ID: {{ bot.id }}) - {{ bot.persona[:50] }}...
+            <a href="{{ url_for('delete_bot', bot_id=bot.id) }}" class="button delete-button" onclick="return confirm('Are you sure you want to delete this bot?');">Delete</a>
+            <a href="{{ url_for('bot_memory', bot_id=bot.id) }}" class="button">View/Edit Memory</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        $(document).ready(function() {
+            let botsRunning = false;
+            
+            $('#toggleBots').click(function() {
+                if (!botsRunning) {
+                    $.ajax({
+                        url: '{{ url_for("start_bots") }}',
+                        method: 'POST',
+                        success: function(response) {
+                            if (response.status === 'success' || response.status === 'partial_success') {
+                                $('#botStatus').text('Bots are running: ' + response.message);
+                                $('#toggleBots').text('Stop Bots');
+                                botsRunning = true;
+                            } else {
+                                alert('Failed to start bots: ' + response.message);
+                            }
+                        },
+                        error: function() {
+                            alert('Failed to start bots');
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: '{{ url_for("stop_bots") }}',
+                        method: 'POST',
+                        success: function(response) {
+                            $('#botStatus').text('Bots are stopped');
+                            $('#toggleBots').text('Start Bots');
+                            botsRunning = false;
+                        },
+                        error: function() {
+                            alert('Failed to stop bots');
+                        }
+                    });
+                }
+            });
+
+            // Update interval
+            $('#updateInterval').click(function() {
+                var newInterval = $('#botInterval').val();
+                $.ajax({
+                    url: '{{ url_for("set_bot_interval") }}',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({interval: parseFloat(newInterval)}),
+                    success: function(response) {
+                        $('#intervalStatus').text(response.message).css('color', 'green');
+                    },
+                    error: function(xhr) {
+                        $('#intervalStatus').text(xhr.responseJSON.message).css('color', 'red');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

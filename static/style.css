@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.button {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label, input, textarea {
+    margin-bottom: 10px;
+}
+
+input[type="submit"], button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.memory-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.memory-actions form {
+    margin: 0;
+}
+
+/* Add these styles to your existing CSS */
+.textarea-wrapper {
+    display: flex;
+    flex-grow: 1;
+}
+
+.line-numbers {
+    padding: 10px 5px;
+    border-right: 1px solid #ddd;
+    background-color: #f7f7f7;
+    text-align: right;
+    color: #999;
+    white-space: pre;
+    line-height: 1.5;
+}
+
+textarea {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.memory-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.memory-tag {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: #666;
+}
+
+#botStatus {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#toggleBots {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#toggleBots:hover {
+    background-color: #45a049;
+}

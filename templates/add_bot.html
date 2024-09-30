@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Bot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Add New Bot</h1>
+    <form action="{{ url_for('add_bot') }}" method="post">
+        <label for="name">Bot Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="token">Bot Token:</label>
+        <input type="text" id="token" name="token" required>
+        
+        <label for="persona">Bot Persona:</label>
+        <textarea id="persona" name="persona" required></textarea>
+        
+        <input type="submit" value="Add Bot">
+    </form>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Discord Logs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Bot Discord Logs (ID: {{ bot_id }})</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('bot_memory', bot_id=bot_id) }}" method="post">
+        <textarea name="memory" rows="20" cols="80">{{ memory }}</textarea>
+        <br>
+        <input type="submit" value="Update Discord Logs">
+    </form>
+    <form action="{{ url_for('compress_memory', bot_id=bot_id) }}" method="post">
+        <input type="submit" value="AI Compress Discord Logs">
+    </form>
+    <div>
+        <h3>Update Bot Interval</h3>
+        <input type="number" id="botInterval" min="1" step="1">
+        <button id="updateInterval">Update Interval</button>
+        <span id="intervalStatus"></span>
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="button">Back to Dashboard</a>
+
+    <script>
+        $(document).ready(function() {
+            // Load current interval
+            $.get('/get_bot_interval/{{ bot_id }}', function(data) {
+                $('#botInterval').val(data.interval);
+            });
+
+            // Update interval
+            $('#updateInterval').click(function() {
+                var newInterval = $('#botInterval').val();
+                $.ajax({
+                    url: '/set_bot_interval/{{ bot_id }}',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({interval: parseFloat(newInterval)}),
+                    success: function(response) {
+                        $('#intervalStatus').text(response.message).css('color', 'green');
+                    },
+                    error: function(xhr) {
+                        $('#intervalStatus').text(xhr.responseJSON.message).css('color', 'red');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
