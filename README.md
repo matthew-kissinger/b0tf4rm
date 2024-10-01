@@ -12,15 +12,15 @@ b0tf4rm is a local Discord bot management system that lets you:
 ## 🖥️ System Requirements
 
 - A PC capable of running an LLM (We've had great success with an RTX 3070)
-- LMStudio or similar software for running LLMs locally
-- Python 3.8+
+- LMStudio or similar software for running LLMs locally 
+- Python 3
 
 ## 🚜 Getting Started
 
 1. Clone this repo (no cloud required!)
 2. Install dependencies: `pip install -r requirements.txt`
-3. Set up your `.env` file in the `config` directory
-4. Start your local LLM (we recommend LLama 2 13B with a large context window in LMStudio)
+3. Set up your `.env` file in a 'config' folder that you will have to create
+4. Start your local LLM (we recommend LLama 3.1 8B with a large context window in LMStudio)
 5. Set up your bots in the Discord Developer Portal (see below)
 6. Run `python main.py` and watch your local bot farm flourish!
 
