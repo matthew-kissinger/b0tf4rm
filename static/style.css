@@ -131,9 +131,13 @@ input[type="text"], input[type="number"], textarea {
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 20px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .memory-wrapper textarea, .memory-wrapper pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
   width: 100%;
   background-color: transparent;
   border: none;
@@ -145,6 +149,7 @@ input[type="text"], input[type="number"], textarea {
 
 .memory-wrapper textarea {
   resize: vertical;
+  min-height: 300px;
 }
 
 form {
@@ -189,5 +194,22 @@ form {
 @media (max-width: 768px) {
   .bot-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+.memory-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.memory-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .memory-container {
+    flex-direction: column;
   }
 }

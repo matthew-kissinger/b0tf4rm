@@ -138,7 +138,7 @@ def update_bot(bot_id):
 def compress_memory(bot_id):
     memory_file = f"data/memory_{bot_id}.txt"
     current_memory = load_from_file(memory_file)
-    bot = next((b for b in bot_manager.get_bots() if b['id'] == bot_id), None)
+    bot = bot_manager.get_bot(bot_id)
     
     if not bot:
         flash('Bot not found', 'error')
@@ -156,7 +156,7 @@ def compress_memory(bot_id):
 
 @app.route('/update_memory/<bot_id>', methods=['POST'])
 def update_memory(bot_id):
-    new_memory = request.form['memory']
+    new_memory = request.form['memory'].encode('utf-8').decode('utf-8')
     memory_file = f"data/memory_{bot_id}.txt"
     save_to_file(new_memory, memory_file)
     flash('Memory updated successfully', 'success')

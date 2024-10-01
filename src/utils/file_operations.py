@@ -9,7 +9,7 @@ def load_from_file(file_path):
     return ""
 
 def save_to_file(content, file_path):
-    with open(file_path, 'w') as f:
+    with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
 
 def update_discord_logs(bot_id, new_content, file_path):

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Compressed Discord Logs - {{ bot_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Verify Compressed Discord Logs for {{ bot_name }} (ID: {{ bot_id }})</h1>
+        <div class="memory-container">
+            <div class="memory-column">
+                <h2>Original Discord Logs:</h2>
+                <div class="memory-wrapper">
+                    <pre>{{ old_memory }}</pre>
+                </div>
+            </div>
+            <div class="memory-column">
+                <h2>Compressed Discord Logs:</h2>
+                <form action="{{ url_for('update_memory', bot_id=bot_id) }}" method="post">
+                    <div class="memory-wrapper">
+                        <textarea name="memory" rows="20">{{ new_memory }}</textarea>
+                    </div>
+                    <input type="submit" value="Confirm and Update {{ bot_name }}'s Discord Logs" class="button">
+                </form>
+            </div>
+        </div>
+        <a href="{{ url_for('configure_bot', bot_id=bot_id) }}" class="button">Cancel</a>
+    </div>
+    <script src="{{ url_for('static', filename='matrix.js') }}"></script>
+</body>
+</html>
