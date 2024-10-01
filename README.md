@@ -13,7 +13,7 @@ b0tf4rm is a local Discord bot management system that lets you:
 
 - A PC capable of running an LLM (We've had great success with an RTX 3070)
 - LMStudio or similar software for running LLMs locally 
-- Python 3
+- Python
 
 ## 🚜 Getting Started
 
