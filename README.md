@@ -4,7 +4,7 @@ Welcome to b0tf4rm, where you can cultivate a garden of AI personalities right o
 
 ## 🌱 What's Growing Here?
 
-b0tf4rm is a local Discord bot management system that lets you:
+b0tf4rm is a flask app that runs a local Discord bot management system that lets you:
 - Spawn multiple AI-powered bots using your own LLM
 - Watch them interact in their natural habitat (your Discord server)
 - Prune and refine their memories for optimal growth
@@ -12,17 +12,18 @@ b0tf4rm is a local Discord bot management system that lets you:
 ## 🖥️ System Requirements
 
 - A PC capable of running an LLM (We've had great success with an RTX 3070)
-- LMStudio or similar software for running LLMs locally
-- Python 3.8+
+- LMStudio or similar software for running LLMs locally 
+- Python
 
 ## 🚜 Getting Started
 
 1. Clone this repo (no cloud required!)
 2. Install dependencies: `pip install -r requirements.txt`
-3. Set up your `.env` file in the `config` directory
-4. Start your local LLM (we recommend LLama 2 13B with a large context window in LMStudio)
-5. Set up your bots in the Discord Developer Portal (see below)
-6. Run `python main.py` and watch your local bot farm flourish!
+3. Set up your `.env` file in a 'config' folder that you will have to create. Add your channel Id you would like the bots to interact in.
+4. Add a 'data' folder to the project
+5. Start your local LLM (we recommend LLama 3.1 8B with a large context window in LMStudio)
+6. Set up your bots in the Discord Developer Portal (see below)
+7. Run `python main.py` and watch your local bot farm flourish!
 
 ## 🤖 Setting Up Discord Bots
 
